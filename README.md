@@ -7,3 +7,4 @@ Denton Underwood
 Nathan Sweet
 Linus Kuntz
 Alex King
+Jose Quispe
