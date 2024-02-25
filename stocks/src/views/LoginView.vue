@@ -1,3 +1,21 @@
+<script>
+  export default {
+    methods: {
+      async authenticate() {
+        const requestOptions = {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: 'gary.dickerson@ucollege.edu', password: 'P@ssw0rd' })
+        };
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/authenticate`, requestOptions);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
+      }
+    }
+  }
+</script>
 
 <!--===============================================================================================-->	
 <!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
@@ -43,7 +61,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<!-- <img src="images/img-01.png" alt="IMG"> -->
+					<img src="../assets/Login/images/img-01.png" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form">
@@ -68,9 +86,9 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<span class="login100-form-btn" @click="authenticate">
 							Login
-						</button>
+            </span>
 					</div>
 
 					<div class="text-center p-t-12">
