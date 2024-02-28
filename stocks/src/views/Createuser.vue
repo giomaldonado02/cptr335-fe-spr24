@@ -7,6 +7,25 @@ defineProps({
 })
 </script>
 
+<script>
+export default {
+    methods: {
+      async createUser() {
+        const requestOptions = {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: 'gary.dickerson@ucollege.edu', password: 'P@ssw0rd' })
+        };
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/authenticate`, requestOptions);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
+      }
+    }
+  }
+</script>
+
 <template>
    <div class="limiter">
        <div class="container-login100">
