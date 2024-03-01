@@ -1,18 +1,38 @@
-<script setup>
-import { ref } from 'vue'
-const email = ref('')
-const password = ref('')
-</script> 
 <script>
-export default {
-  data() {
-    return{ 
-      email: '',
-      password: ''
+  export default {
+    methods: {
+      async authenticate() {
+        const requestOptions = {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: 'gary.dickerson@ucollege.edu', password: 'P@ssw0rd' })
+        };
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/authenticate`, requestOptions);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
+      }
     }
   }
-}
 </script>
+
+<!--===============================================================================================-->	
+<!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
+<!--===============================================================================================-->
+	<!-- <script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
+<!--===============================================================================================-->
+	<!-- <script src="vendor/select2/select2.min.js"></script> -->
+<!--===============================================================================================-->
+	<!-- <script src="vendor/tilt/tilt.jquery.min.js"></script> -->
+	<!-- <script > -->
+		<!-- $('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script> -->
+<!--===============================================================================================-->
+	<!-- <script src="js/main.js"></script> -->
 <template>
   <head>
 	<title>Login V1</title>
@@ -41,7 +61,7 @@ export default {
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					 <img src="../assets/Login/css/main.cssimages/img-01.png" alt="IMG"> 
+					<img src="../assets/Login/images/img-01.png" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form">
@@ -66,9 +86,9 @@ export default {
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<span class="login100-form-btn" @click="authenticate">
 							Login
-						</button>
+            </span>
 					</div>
 
 					<div class="text-center p-t-12">
