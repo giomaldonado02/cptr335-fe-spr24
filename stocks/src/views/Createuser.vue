@@ -18,7 +18,7 @@ export default {
           },
           body: JSON.stringify({ email: 'gary.dickerson@ucollege.edu', password: 'P@ssw0rd' })
         };
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/authenticate`, requestOptions);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/createUser`, requestOptions);
         const data = await response.json();
         console.log('<<<<< data = ', data);
       }
