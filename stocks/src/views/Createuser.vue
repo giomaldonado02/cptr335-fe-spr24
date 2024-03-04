@@ -7,6 +7,31 @@ defineProps({
 })
 </script>
 
+<script>
+export default {
+    data() {
+      return{
+        firstName: "", lastName: "", email: "", password: ""
+      }
+      
+    },
+    methods: {
+      async createUser() {
+        const requestOptions = {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ firstName, lastName, email, password})
+        };
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/createUser`, requestOptions);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
+      }
+    }
+  }
+</script>
+
 <template>
    <div class="limiter">
        <div class="container-login100">
