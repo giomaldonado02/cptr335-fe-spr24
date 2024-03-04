@@ -9,6 +9,12 @@ defineProps({
 
 <script>
 export default {
+    data() {
+      return{
+        firstName: "", lastName: "", email: "", password: ""
+      }
+      
+    },
     methods: {
       async createUser() {
         const requestOptions = {
@@ -16,7 +22,7 @@ export default {
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: 'gary.dickerson@ucollege.edu', password: 'P@ssw0rd' })
+          body: JSON.stringify({ firstName, lastName, email, password})
         };
         const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/createUser`, requestOptions);
         const data = await response.json();
