@@ -5,6 +5,7 @@ defineProps({
     required: true
   }
 })
+
 </script>
 
 <script>
@@ -37,7 +38,7 @@ export default {
        <div class="container-login100">
            <div class="wrap-login100">
                <div class="login100-pic js-tilt" data-tilt>
-                   <!-- <img src="images/img-01.png" alt="IMG"> -->
+                   <img src="../assets/Login/images/img-01.png" alt="IMG">
                </div>
 
 
@@ -48,7 +49,7 @@ export default {
 
 
                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="First name" placeholder="First Name">
+                       <input class="input100" type="text" name="First name" placeholder="First Name" v-model="firstName">
                        <span class="focus-input100"></span>
                        <span class="symbol-input100">
                            <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -56,7 +57,7 @@ export default {
                    </div>
                   
                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="Last name" placeholder="Last Name">
+                       <input class="input100" type="text" name="Last name" placeholder="Last Name" v-model="lastName">
                        <span class="focus-input100"></span>
                        <span class="symbol-input100">
                            <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -65,7 +66,7 @@ export default {
 
 
                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="email" placeholder="Email">
+                       <input class="input100" type="text" name="email" placeholder="Email" v-model="email">
                        <span class="focus-input100"></span>
                        <span class="symbol-input100">
                            <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -74,7 +75,7 @@ export default {
 
 
                    <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                       <input class="input100" type="password" name="pass" placeholder="Password">
+                       <input class="input100" type="password" name="pass" placeholder="Password" v-model="password">
                        <span class="focus-input100"></span>
                        <span class="symbol-input100">
                            <i class="fa fa-lock" aria-hidden="true"></i>
@@ -82,9 +83,9 @@ export default {
                    </div>
                   
                    <div class="container-login100-form-btn">
-                       <button class="login100-form-btn">
+                       <span class="login100-form-btn" @click="authenticate">
                            Create
-                       </button>
+                       </span>
                    </div>
                </form>
            </div>
