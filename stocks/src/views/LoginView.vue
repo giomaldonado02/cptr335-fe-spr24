@@ -1,3 +1,18 @@
+<script setup>
+import { ref } from 'vue'
+const email = ref('')
+const password = ref('')
+</script> 
+<!--<script>
+export default {
+  data() {
+    return{ 
+      email: '',
+      password: ''
+    }
+  }
+}
+</script>-->
 <script>
   export default {
     methods: {
@@ -34,29 +49,29 @@
 <!--===============================================================================================-->
 	<!-- <script src="js/main.js"></script> -->
 <template>
- <!-- <head>
+  <head>
 	<title>Login V1</title>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> -->
-<!--===============================================================================================-->	
-	<!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
-<!--===============================================================================================-->
-	<!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
-<!--===============================================================================================-->
-	<!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
-<!--===============================================================================================-->
-	<!-- <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"> -->
-<!--===============================================================================================-->	
-	<!-- <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css"> -->
-<!--===============================================================================================-->
-	<!-- <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css"> -->
-<!--===============================================================================================-->
-	<!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
-	<!-- <link rel="stylesheet" type="text/css" href="css/main.css"> -->
-<!--===============================================================================================-->
-<!-- </head>
-<body> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	
+	 <link rel="icon" type="image/png" href="../assets/Login/images/icons/favicon.ico"/> 
+
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/bootstrap/css/bootstrap.min.css"> 
+
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css"> 
+
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/animate/animate.css"> 
+	
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/css-hamburgers/hamburgers.min.css"> 
+
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/select2/select2.min.css"> 
+
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/css/util.css"> 
+	 <link rel="stylesheet" type="text/css" href="../assets/Login/css/main.css"> 
+
+ </head>
+<body> 
+  
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -70,7 +85,7 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+						<input v-model="email" placeholder="Email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -78,7 +93,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input v-model="password" name="pass" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -102,22 +117,23 @@
 
 					<div class="text-center p-t-136">
             <router-link to="/create">
-              <!-- <a class="txt2"> -->
+               <a class="txt2"> 
                 Create your Account
-                <!-- <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-              </a> -->
+                 <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+              </a> 
 	          </router-link>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-	
+	<p>Email: {{ email }} </p>
+  <p>Password: {{ password }} </p>
 	
 
 	
 
-<!-- </body> -->
+ </body> 
   </template>
   
   <style>
@@ -130,22 +146,22 @@
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../assets/Login/fonts/poppins/Poppins-Regular.ttf'); 
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../assets/Login/fonts/poppins/Poppins-Bold.ttf'); 
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../assets/Login/fonts/poppins/Poppins-Medium.ttf'); 
 }
 
 @font-face {
   font-family: Montserrat-Bold;
-  src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
+  src: url('../assets/Login/fonts/montserrat/Montserrat-Bold.ttf'); 
 }
 
 /*//////////////////////////////////////////////////////////////////
