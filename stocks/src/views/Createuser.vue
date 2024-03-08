@@ -23,7 +23,12 @@ export default {
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ firstName, lastName, email, password})
+          body: JSON.stringify({ 
+            firstName: this.firstName, 
+            lastName: this.lastName, 
+            email: this.email, 
+            password: this.password
+          })
         };
         const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/createUser`, requestOptions);
         const data = await response.json();
@@ -83,7 +88,7 @@ export default {
                    </div>
                   
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="authenticate">
+                       <span class="login100-form-btn" @click="createUser">
                            Create
                        </span>
                    </div>
