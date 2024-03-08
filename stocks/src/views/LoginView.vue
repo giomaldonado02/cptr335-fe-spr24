@@ -1,20 +1,11 @@
-<script setup>
-import { ref } from 'vue'
-const email = ref('')
-const password = ref('')
-</script> 
-<!--<script>
-export default {
-  data() {
-    return{ 
-      email: '',
-      password: ''
-    }
-  }
-}
-</script>-->
 <script>
   export default {
+    data() {
+      return{ 
+        email: '',
+        password: ''
+      }
+    },
     methods: {
       async authenticate() {
         const requestOptions = {
