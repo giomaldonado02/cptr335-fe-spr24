@@ -22,7 +22,7 @@ export default {
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: 'gary.dickerson@ucollege.edu', password: 'P@ssw0rd' })
+          body: JSON.stringify({ email: this.email, password: this.password })
         };
         const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/authenticate`, requestOptions);
         const data = await response.json();
@@ -31,6 +31,26 @@ export default {
     }
   }
 </script>
+<!--<script>
+const emit = defineEmits({
+  // No validation
+  click: null,
+
+  // Validate submit event
+  submit: ({ email, password }) => {
+    if (email && password) {
+      return true
+    } else {
+      console.warn('Invalid submit event payload!')
+      return false
+    }
+  }
+})
+
+function submitForm(email, password) {
+  emit('submit', { email, password })
+}
+</script>-->
 
 <!--===============================================================================================-->	
 <!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
@@ -101,9 +121,14 @@ export default {
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<span class="login100-form-btn" @click="authenticate">
+            <!--<router-link to="/loggedin">-->
+              <span class="login100-form-btn" @click="authenticate">
+               <a class="txt2"> 						
 							Login
-            </span>
+               <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+              </a> 
+              </span>
+	          <!--</router-link>-->
 					</div>
 
 					<div class="text-center p-t-12">
