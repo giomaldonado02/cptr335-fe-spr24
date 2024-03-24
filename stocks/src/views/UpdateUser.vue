@@ -26,7 +26,7 @@ export default {
           body: JSON.stringify({ firstName, lastName, email })
         };
         //  FIX AFTER BACKEND FUNCTIONS ARE FINISHED
-        //const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/updateUser`, requestOptions);
+        //const response = await fetch(`/be/updateUser`, requestOptions);
         //const data = await response.json();
        // console.log('<<<<< data = ', data);
       }
