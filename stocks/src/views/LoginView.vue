@@ -15,7 +15,7 @@
           },
           body: JSON.stringify({ email: this.email, password: this.password })
         };
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/authenticate`, requestOptions);
+        const response = await fetch('/be/authenticate', requestOptions);
         const data = await response.json();
         console.log('<<<<< data = ', data);
       }

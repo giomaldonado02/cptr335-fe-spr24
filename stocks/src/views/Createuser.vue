@@ -30,7 +30,7 @@ export default {
             password: this.password
           })
         };
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/createUser`, requestOptions);
+        const response = await fetch(`/be/createUser`, requestOptions);
         const data = await response.json();
         console.log('<<<<< data = ', data);
       }
