@@ -17,7 +17,8 @@ export default {
       
     },
     methods: {
-      async ser() {
+      async updateUser() {
+        const { firstName, lastName, email } = this;
         const requestOptions = {
           method: "POST",
           headers: { 
@@ -25,10 +26,9 @@ export default {
           },
           body: JSON.stringify({ firstName, lastName, email })
         };
-        //  FIX AFTER BACKEND FUNCTIONS ARE FINISHED
-        //const response = await fetch(`/be/updateUser`, requestOptions);
-        //const data = await response.json();
-       // console.log('<<<<< data = ', data);
+        const response = await fetch(`/be/updateUser`, requestOptions);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
       }
     }
   }
@@ -72,7 +72,7 @@ export default {
                    </div>
 
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="authenticate">
+                       <span class="login100-form-btn" @click="updateUser">
                            Update
                        </span>
                    </div>
