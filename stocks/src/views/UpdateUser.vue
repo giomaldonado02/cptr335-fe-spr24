@@ -76,6 +76,14 @@ export default {
                            Update
                        </span>
                    </div>
+                   
+                   <RouterLink to="/">
+                    <div class="container-login100-form-btn">
+                        <span class="login100-form-btn" @click="goHome">
+                          Cancel
+                        </span>
+                    </div>
+                  </RouterLink>
                </form>
            </div>
        </div>
