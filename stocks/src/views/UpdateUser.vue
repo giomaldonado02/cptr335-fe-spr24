@@ -15,14 +15,16 @@ export default {
         firstName: "", lastName: "", email: ""
       }
     },
-    created() {
-      this.loadData();
-    },
     methods: {
       async loadData() {
         try {
-          const response = await fetch(`/be/getUserData`);
-          console.log('<<<<<<<< response =', response);
+          const requestOptions = {
+            method: "GET",
+            headers: { 
+              "Content-Type": "application/json",
+          },
+        };
+          const response = await fetch(`/be/getUserData`, requestOptions);
           const userData = await response.json();
           this.firstName = userData.firstName;
           this.lastName = userData.lastName;
@@ -31,6 +33,7 @@ export default {
           console.error('Error loading user data:', error);
         }
       },
+      
       async updateUser() {
         const { firstName, lastName, email } = this;
         const requestOptions = {
@@ -43,6 +46,9 @@ export default {
         const response = await fetch(`/be/updateUser`, requestOptions); // URL doesn't exist on backend yet
         const data = await response.json();
       }
+    },
+    beforeMount() {
+      this.loadData();
     }
   }
 </script>
