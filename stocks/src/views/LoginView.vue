@@ -13,7 +13,7 @@
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: this.email, password: this.password })
+          body: JSON.stringify({ email: 'asdf@gmail.com', password: 'asdf' })
         };
         const response = await fetch('/be/authenticate', requestOptions);
         const data = await response.json();
@@ -96,7 +96,7 @@ function submitForm(email, password) {
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input v-model="email" placeholder="Email">
+						<input class="input100" type="text" name="email" placeholder="Email" v-model="email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -104,7 +104,7 @@ function submitForm(email, password) {
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input v-model="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="pass" placeholder="Password" v-model="password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
