@@ -15,7 +15,9 @@ export default {
         firstName: "",
         lastName: "",
         email: "",
-        formChanged: false
+        formFirstName: "",
+        formLastName: "",
+        formEmail: ""
       }
     },
     methods: {
@@ -32,32 +34,38 @@ export default {
           this.firstName = userData.firstName;
           this.lastName = userData.lastName;
           this.email = userData.email;
+          this.formFirstName = this.firstName;
+          this.formLastName = this.lastName;
+          this.formEmail = this.email;
         } catch (error) {
           console.error('Error loading user data:', error);
         }
       },
       
       async updateUser() {
-        const { firstName, lastName, email } = this;
-        const requestOptions = {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ firstName, lastName, email })
-        };
-        const response = await fetch(`/be/updateUser`, requestOptions); // URL doesn't exist on backend yet
-        const data = await response.json();
+        if (this.isFormChanged) {
+            const { firstName, lastName, email } = this;
+            const requestOptions = {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ firstName, lastName, email })
+          };
+          const response = await fetch(`/be/updateUser`, requestOptions);
+          const data = await response.json();
+          console.log('<<<<<<<< data =', data);
+        }
+        
       }
     },
 
     computed: {
       isFormChanged() {
         return (
-          this.firstName !== "" ||
-          this.lastName !== "" ||
-          this.email !== "" ||
-          this.formChanged
+          this.firstName !== this.formFirstName ||
+          this.lastName !== this.formLastName ||
+          this.email !== this.formEmail
         );
       }
     },
@@ -105,7 +113,7 @@ export default {
                    </div>
                    
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="updateUser" :disabled="isFormChanged">
+                       <span class="login100-form-btn" @click="updateUser">
                            Update
                        </span>
                    </div>
