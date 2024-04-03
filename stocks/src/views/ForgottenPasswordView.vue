@@ -12,36 +12,20 @@ defineProps({
 export default {
     data() {
       return{
-        firstName: "", lastName: "", email: ""
+        email: ""
       }
-    },
-    created() {
-      this.loadData();
+      
     },
     methods: {
-      async loadData() {
-        try {
-          const response = await fetch(`/be/getUserData`);
-          console.log('<<<<<<<< response =', response);
-          const userData = await response.json();
-          this.firstName = userData.firstName;
-          this.lastName = userData.lastName;
-          this.email = userData.email;
-        } catch (error) {
-          console.error('Error loading user data:', error);
-        }
-      },
-      async updateUser() {
-        const { firstName, lastName, email } = this;
+      async ser() {
         const requestOptions = {
           method: "POST",
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ firstName, lastName, email })
+          body: JSON.stringify({ email })
         };
-        const response = await fetch(`/be/updateUser`, requestOptions); // URL doesn't exist on backend yet
-        const data = await response.json();
+        //  FIX AFTER BACKEND FUNCTIONS ARE FINISHED
       }
     }
   }
@@ -57,24 +41,9 @@ export default {
 
                <form class="login100-form validate-form">
                    <span class="login100-form-title">
-                       Update User
-                   </span>
+                       Forgotten Password
 
-                   <div class="wrap-input100 validate-input">
-                       <input class="input100" type="text" name="First name" placeholder="First Name" v-model="firstName">
-                       <span class="focus-input100"></span>
-                       <span class="symbol-input100">
-                           <i class="fa fa-envelope" aria-hidden="true"></i>
-                       </span>
-                   </div>
-                  
-                   <div class="wrap-input100 validate-input">
-                       <input class="input100" type="text" name="Last name" placeholder="Last Name" v-model="lastName">
-                       <span class="focus-input100"></span>
-                       <span class="symbol-input100">
-                           <i class="fa fa-envelope" aria-hidden="true"></i>
-                       </span>
-                   </div>
+                   </span>
 
                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                        <input class="input100" type="text" name="email" placeholder="Email" v-model="email">
@@ -85,18 +54,10 @@ export default {
                    </div>
 
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="updateUser">
-                           Update
+                       <span class="login100-form-btn" @click="authenticate">
+                           Send Email
                        </span>
                    </div>
-                   
-                   <RouterLink to="/">
-                    <div class="container-login100-form-btn">
-                        <span class="login100-form-btn" @click="goHome">
-                          Cancel
-                        </span>
-                    </div>
-                  </RouterLink>
                </form>
            </div>
        </div>
