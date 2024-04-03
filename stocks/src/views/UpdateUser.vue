@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 defineProps({
   msg: {
     type: String,
@@ -6,23 +6,28 @@ defineProps({
   }
 })
 
-</script>
+</script> -->
 
 <script>
 export default {
     data() {
       return{
-        firstName: "", lastName: "", email: ""
+        firstName: "",
+        lastName: "",
+        email: "",
+        formChanged: false
       }
-    },
-    created() {
-      this.loadData();
     },
     methods: {
       async loadData() {
         try {
-          const response = await fetch(`/be/getUserData`);
-          console.log('<<<<<<<< response =', response);
+          const requestOptions = {
+            method: "GET",
+            headers: { 
+              "Content-Type": "application/json",
+          },
+        };
+          const response = await fetch(`/be/getUserData`, requestOptions);
           const userData = await response.json();
           this.firstName = userData.firstName;
           this.lastName = userData.lastName;
@@ -31,6 +36,7 @@ export default {
           console.error('Error loading user data:', error);
         }
       },
+      
       async updateUser() {
         const { firstName, lastName, email } = this;
         const requestOptions = {
@@ -43,6 +49,20 @@ export default {
         const response = await fetch(`/be/updateUser`, requestOptions); // URL doesn't exist on backend yet
         const data = await response.json();
       }
+    },
+
+    computed: {
+      isFormChanged() {
+        return (
+          this.firstName !== "" ||
+          this.lastName !== "" ||
+          this.email !== "" ||
+          this.formChanged
+        );
+      }
+    },
+    mounted() {
+      this.loadData();
     }
   }
 </script>
@@ -83,14 +103,14 @@ export default {
                            <i class="fa fa-envelope" aria-hidden="true"></i>
                        </span>
                    </div>
-
+                   
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="updateUser">
+                       <span class="login100-form-btn" @click="updateUser" :disabled="isFormChanged">
                            Update
                        </span>
                    </div>
                    
-                   <RouterLink to="/">
+                   <RouterLink to="/loggedin">
                     <div class="container-login100-form-btn">
                         <span class="login100-form-btn" @click="goHome">
                           Cancel
