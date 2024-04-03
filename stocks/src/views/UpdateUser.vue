@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 defineProps({
   msg: {
     type: String,
@@ -6,13 +6,16 @@ defineProps({
   }
 })
 
-</script>
+</script> -->
 
 <script>
 export default {
     data() {
       return{
-        firstName: "", lastName: "", email: ""
+        firstName: "",
+        lastName: "",
+        email: "",
+        formChanged: false
       }
     },
     methods: {
@@ -47,7 +50,18 @@ export default {
         const data = await response.json();
       }
     },
-    beforeMount() {
+
+    computed: {
+      isFormChanged() {
+        return (
+          this.firstName !== "" ||
+          this.lastName !== "" ||
+          this.email !== "" ||
+          this.formChanged
+        );
+      }
+    },
+    mounted() {
       this.loadData();
     }
   }
@@ -89,14 +103,14 @@ export default {
                            <i class="fa fa-envelope" aria-hidden="true"></i>
                        </span>
                    </div>
-
+                   
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="updateUser">
+                       <span class="login100-form-btn" @click="updateUser" :disabled="isFormChanged">
                            Update
                        </span>
                    </div>
                    
-                   <RouterLink to="/">
+                   <RouterLink to="/loggedin">
                     <div class="container-login100-form-btn">
                         <span class="login100-form-btn" @click="goHome">
                           Cancel
