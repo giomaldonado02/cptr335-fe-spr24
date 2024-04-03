@@ -13,12 +13,15 @@
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: 'asdf@gmail.com', password: 'asdf' })
+          body: JSON.stringify({ email: this.email, password: this.password })
         };
         const response = await fetch('/be/authenticate', requestOptions);
         const data = await response.json();
-        console.log('<<<<< data = ', data);
+        if( data.status === 200){
+          //this.$router.push("/loggedin")
+          console.log(data)
       }
+    }
     }
   }
 </script>
@@ -112,14 +115,12 @@ function submitForm(email, password) {
 					</div>
 					
 					<div class="container-login100-form-btn">
-            <!--<router-link to="/loggedin">-->
               <span class="login100-form-btn" @click="authenticate">
                <a class="txt2"> 						
 							Login
                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
               </a> 
               </span>
-	          <!--</router-link>-->
 					</div>
 
 					<div class="text-center p-t-12">
@@ -143,8 +144,6 @@ function submitForm(email, password) {
 			</div>
 		</div>
 	</div>
-	<p>Email: {{ email }} </p>
-  <p>Password: {{ password }} </p>
 	
 
 	
