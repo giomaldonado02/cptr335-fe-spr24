@@ -44,13 +44,13 @@ export default {
       
       async updateUser() {
         if (this.isFormChanged) {
-            const { firstName, lastName, email } = this;
+            const { firstName, lastName, email, formFirstName, formLastName, formEmail } = this;
             const requestOptions = {
             method: "POST",
             headers: { 
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ firstName, lastName, email })
+            body: JSON.stringify({ firstName, lastName, email, formFirstName, formLastName, formEmail })
           };
           const response = await fetch(`/be/updateUser`, requestOptions);
           const data = await response.json();
