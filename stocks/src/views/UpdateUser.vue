@@ -50,13 +50,17 @@ export default {
             headers: { 
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ firstName, lastName, email, formFirstName, formLastName, formEmail })
+            body: JSON.stringify({ firstName, lastName, email })
           };
           const response = await fetch(`/be/updateUser`, requestOptions);
           const data = await response.json();
-          console.log('<<<<<<<< data =', data);
+
+          if(response.status != 200) {
+            console.log('Error updating user!');
+          }else {
+            console.log(response.status);
+          }
         }
-        
       }
     },
 
