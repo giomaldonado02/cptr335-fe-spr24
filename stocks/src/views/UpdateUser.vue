@@ -9,7 +9,6 @@ defineProps({
 </script> -->
 
 <script>
-import router from '@/router';
 
 export default {
     data() {
@@ -59,7 +58,7 @@ export default {
           const data = await response.json();
 
           if(response.status === 200) {
-            router.push('/LoggedIn');
+            alert('Updated');
           }else if(response.status === 418) {
             console.log('Email already in use!');
             alert('Email already in use!');
