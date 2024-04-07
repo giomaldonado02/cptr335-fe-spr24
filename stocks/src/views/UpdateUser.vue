@@ -9,6 +9,8 @@ defineProps({
 </script> -->
 
 <script>
+import router from '@/router';
+
 export default {
     data() {
       return{
@@ -44,21 +46,26 @@ export default {
       
       async updateUser() {
         if (this.isFormChanged) {
-            const { firstName, lastName, email, formFirstName, formLastName, formEmail } = this;
+            const { firstName, lastName, email, formEmail } = this;
             const requestOptions = {
             method: "POST",
             headers: { 
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ firstName, lastName, email })
+            body: JSON.stringify({ firstName, lastName, email, formEmail })
           };
+
           const response = await fetch(`/be/updateUser`, requestOptions);
           const data = await response.json();
 
-          if(response.status != 200) {
-            console.log('Error updating user!');
+          if(response.status === 200) {
+            router.push('/LoggedIn');
+          }else if(response.status === 418) {
+            console.log('Email already in use!');
+            alert('Email already in use!');
           }else {
-            console.log(response.status);
+            console.log('Error updating user!');
+            alert('Error updating user!');
           }
         }
       }
@@ -73,7 +80,7 @@ export default {
         );
       }
     },
-    mounted() {
+    created() {
       this.loadData();
     }
   }
