@@ -5,179 +5,221 @@ defineProps({
     required: true
   }
 })
-
 </script>
 
 <script>
 export default {
-    data() {
-      return{
-        firstName: "", lastName: "", email: "", password: ""
+  data() {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    async createUser() {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password
+        })
       }
-      
+      try {
+        if (!(await this.isEmailValid(this.email))) {
+          return
+        }
+        const response = await fetch(`/be/createUser`, requestOptions)
+        const data = await response.json()
+      } catch (error) {
+        console.error('Error with email address.')
+      }
     },
-    methods: {
-      async createUser() {
-        const requestOptions = {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            firstName: this.firstName, 
-            lastName: this.lastName, 
-            email: this.email, 
-            password: this.password
-          })
-        };
-        const response = await fetch(`/be/createUser`, requestOptions);
-        const data = await response.json();
-        console.log('<<<<< data = ', data);
+
+    async isEmailValid() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+      if (!this.email || !emailPattern.test(this.email)) {
+        alert('Please enter a valid email address')
+        throw new error('Invalid email address')
       }
+      return true
     }
   }
+}
 </script>
 
 <template>
-   <div class="limiter">
-       <div class="container-login100">
-           <div class="wrap-login100">
-               <div class="login100-pic js-tilt" data-tilt>
-                   <img src="../assets/Login/images/img-01.png" alt="IMG">
-               </div>
+  <div class="limiter">
+    <div class="container-login100">
+      <div class="wrap-login100">
+        <div class="login100-pic js-tilt" data-tilt>
+          <img src="../assets/Login/images/img-01.png" alt="IMG" />
+        </div>
 
+        <form class="login100-form validate-form">
+          <span class="login100-form-title"> Create User </span>
 
-               <form class="login100-form validate-form">
-                   <span class="login100-form-title">
-                       Create User
-                   </span>
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Valid email is required: ex@abc.xyz"
+          >
+            <input
+              class="input100"
+              type="text"
+              name="First name"
+              placeholder="First Name"
+              v-model="firstName"
+            />
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+          </div>
 
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Valid email is required: ex@abc.xyz"
+          >
+            <input
+              class="input100"
+              type="text"
+              name="Last name"
+              placeholder="Last Name"
+              v-model="lastName"
+            />
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+          </div>
 
-                   <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="First name" placeholder="First Name" v-model="firstName">
-                       <span class="focus-input100"></span>
-                       <span class="symbol-input100">
-                           <i class="fa fa-envelope" aria-hidden="true"></i>
-                       </span>
-                   </div>
-                  
-                   <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="Last name" placeholder="Last Name" v-model="lastName">
-                       <span class="focus-input100"></span>
-                       <span class="symbol-input100">
-                           <i class="fa fa-envelope" aria-hidden="true"></i>
-                       </span>
-                   </div>
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Valid email is required: ex@abc.xyz"
+          >
+            <input class="input100" type="text" name="email" placeholder="Email" v-model="email" />
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+          </div>
 
+          <div class="wrap-input100 validate-input" data-validate="Password is required">
+            <input
+              class="input100"
+              type="password"
+              name="pass"
+              placeholder="Password"
+              v-model="password"
+            />
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-lock" aria-hidden="true"></i>
+            </span>
+          </div>
 
-                   <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="email" placeholder="Email" v-model="email">
-                       <span class="focus-input100"></span>
-                       <span class="symbol-input100">
-                           <i class="fa fa-envelope" aria-hidden="true"></i>
-                       </span>
-                   </div>
-
-
-                   <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                       <input class="input100" type="password" name="pass" placeholder="Password" v-model="password">
-                       <span class="focus-input100"></span>
-                       <span class="symbol-input100">
-                           <i class="fa fa-lock" aria-hidden="true"></i>
-                       </span>
-                   </div>
-                  
-                   <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="createUser">
-                           Create
-                       </span>
-                   </div>
-               </form>
-           </div>
-       </div>
-   </div>
+          <div class="container-login100-form-btn">
+            <span class="login100-form-btn" @click="createUser"> Create </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../fonts/poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Montserrat-Bold;
-  src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
+  src: url('../fonts/montserrat/Montserrat-Bold.ttf');
 }
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: Poppins-Regular, sans-serif;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
 }
 
 a:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
   color: #57b846;
 }
 
 /*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
 }
 
 p {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
 }
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+ul,
+li {
+  margin: 0px;
+  list-style-type: none;
 }
-
 
 /*---------------------------------------------*/
 input {
-	outline: none;
-	border: none;
+  outline: none;
+  border: none;
 }
 
 textarea {
@@ -185,45 +227,77 @@ textarea {
   border: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; }
-input:focus::-moz-placeholder { color:transparent; }
-input:focus:-ms-input-placeholder { color:transparent; }
+input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+input:focus:-moz-placeholder {
+  color: transparent;
+}
+input:focus::-moz-placeholder {
+  color: transparent;
+}
+input:focus:-ms-input-placeholder {
+  color: transparent;
+}
 
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
+textarea:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+textarea:focus:-moz-placeholder {
+  color: transparent;
+}
+textarea:focus::-moz-placeholder {
+  color: transparent;
+}
+textarea:focus:-ms-input-placeholder {
+  color: transparent;
+}
 
-input::-webkit-input-placeholder { color: #999999; }
-input:-moz-placeholder { color: #999999; }
-input::-moz-placeholder { color: #999999; }
-input:-ms-input-placeholder { color: #999999; }
+input::-webkit-input-placeholder {
+  color: #999999;
+}
+input:-moz-placeholder {
+  color: #999999;
+}
+input::-moz-placeholder {
+  color: #999999;
+}
+input:-ms-input-placeholder {
+  color: #999999;
+}
 
-textarea::-webkit-input-placeholder { color: #999999; }
-textarea:-moz-placeholder { color: #999999; }
-textarea::-moz-placeholder { color: #999999; }
-textarea:-ms-input-placeholder { color: #999999; }
+textarea::-webkit-input-placeholder {
+  color: #999999;
+}
+textarea:-moz-placeholder {
+  color: #999999;
+}
+textarea::-moz-placeholder {
+  color: #999999;
+}
+textarea:-ms-input-placeholder {
+  color: #999999;
+}
 
 /*---------------------------------------------*/
 button {
-	outline: none !important;
-	border: none;
-	background: transparent;
+  outline: none !important;
+  border: none;
+  background: transparent;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 iframe {
-	border: none !important;
+  border: none !important;
 }
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
@@ -241,7 +315,6 @@ iframe {
   color: #666666;
 }
 
-
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
 
@@ -251,7 +324,7 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -295,7 +368,6 @@ iframe {
   max-width: 100%;
 }
 
-
 /*------------------------------------------------------------------
 [  ]*/
 .login100-form {
@@ -313,7 +385,6 @@ iframe {
   display: block;
   padding-bottom: 54px;
 }
-
 
 /*---------------------------------------------*/
 .wrap-input100 {
@@ -337,7 +408,6 @@ iframe {
   padding: 0 30px 0 68px;
 }
 
-
 /*------------------------------------------------------------------
 [ Focus ]*/
 .focus-input100 {
@@ -350,7 +420,7 @@ iframe {
   width: 100%;
   height: 100%;
   box-shadow: 0px 0px 0px 0px;
-  color: rgba(87,184,70, 0.8);
+  color: rgba(87, 184, 70, 0.8);
 }
 
 .input100:focus + .focus-input100 {
@@ -446,12 +516,8 @@ iframe {
   background: #333333;
 }
 
-
-
 /*------------------------------------------------------------------
 [ Responsive ]*/
-
-
 
 @media (max-width: 992px) {
   .wrap-login100 {
@@ -486,7 +552,6 @@ iframe {
     padding: 100px 15px 33px 15px;
   }
 }
-
 
 /*------------------------------------------------------------------
 [ Alert validate ]*/
@@ -528,7 +593,7 @@ iframe {
 }
 
 .alert-validate::after {
-  content: "\f06a";
+  content: '\f06a';
   font-family: FontAwesome;
   display: block;
   position: absolute;
