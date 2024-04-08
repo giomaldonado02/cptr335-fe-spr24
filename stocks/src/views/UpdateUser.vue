@@ -44,7 +44,11 @@ export default {
       },
       
       async updateUser() {
-        if (this.isFormChanged) {
+        try{
+          if (!await this.isEmailValid()) {
+            return;
+        }
+          if (this.isFormChanged) {
             const { firstName, lastName, email, formEmail } = this;
             const requestOptions = {
             method: "POST",
@@ -58,7 +62,8 @@ export default {
           const data = await response.json();
 
           if(response.status === 200) {
-            alert('Updated');
+            alert('User account details successfully updated.');
+            window.location.reload();
           }else if(response.status === 418) {
             console.log('Email already in use!');
             alert('Email already in use!');
@@ -67,7 +72,20 @@ export default {
             alert('Error updating user!');
           }
         }
+      } catch (error) {
+        console.error('Error with email address.');
       }
+    },
+
+      async isEmailValid() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!this.email || !emailPattern.test(this.email)) {
+        alert('Please enter a valid email address');
+        throw new error('Invalid email address');
+      }
+        return true;
+      },
     },
 
     computed: {
