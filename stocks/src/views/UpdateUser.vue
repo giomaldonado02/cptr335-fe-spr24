@@ -84,7 +84,6 @@ export default {
         alert('Please enter a valid email address');
         throw new error('Invalid email address');
       }
-
         return true;
       },
     },
