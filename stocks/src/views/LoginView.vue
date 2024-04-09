@@ -20,8 +20,8 @@
         if( data.status === 200){
           //this.$router.push("/loggedin")
           console.log(data)
+        }
       }
-    }
     }
   }
 </script>
