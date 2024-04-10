@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 defineProps({
   msg: {
     type: String,
@@ -6,43 +6,99 @@ defineProps({
   }
 })
 
-</script>
+</script> -->
 
 <script>
+
 export default {
     data() {
       return{
-        firstName: "", lastName: "", email: ""
+        firstName: "",
+        lastName: "",
+        email: "",
+        formFirstName: "",
+        formLastName: "",
+        formEmail: ""
       }
-    },
-    created() {
-      this.loadData();
     },
     methods: {
       async loadData() {
         try {
-          const response = await fetch(`/be/getUserData`);
-          console.log('<<<<<<<< response =', response);
+          const requestOptions = {
+            method: "GET",
+            headers: { 
+              "Content-Type": "application/json",
+          },
+        };
+          const response = await fetch(`/be/getUserData`, requestOptions);
           const userData = await response.json();
           this.firstName = userData.firstName;
           this.lastName = userData.lastName;
           this.email = userData.email;
+          this.formFirstName = this.firstName;
+          this.formLastName = this.lastName;
+          this.formEmail = this.email;
         } catch (error) {
           console.error('Error loading user data:', error);
         }
       },
+      
       async updateUser() {
-        const { firstName, lastName, email } = this;
-        const requestOptions = {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ firstName, lastName, email })
-        };
-        const response = await fetch(`/be/updateUser`, requestOptions); // URL doesn't exist on backend yet
-        const data = await response.json();
+        try{
+          if (!await this.isEmailValid()) {
+            return;
+        }
+          if (this.isFormChanged) {
+            const { firstName, lastName, email, formEmail } = this;
+            const requestOptions = {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ firstName, lastName, email, formEmail })
+          };
+
+          const response = await fetch(`/be/updateUser`, requestOptions);
+          const data = await response.json();
+
+          if(response.status === 200) {
+            alert('User account details successfully updated.');
+            window.location.reload();
+          }else if(response.status === 418) {
+            console.log('Email already in use!');
+            alert('Email already in use!');
+          }else {
+            console.log('Error updating user!');
+            alert('Error updating user!');
+          }
+        }
+      } catch (error) {
+        console.error('Error with email address.');
       }
+    },
+
+      async isEmailValid() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!this.email || !emailPattern.test(this.email)) {
+        alert('Please enter a valid email address');
+        throw new error('Invalid email address');
+      }
+        return true;
+      },
+    },
+
+    computed: {
+      isFormChanged() {
+        return (
+          this.firstName !== this.formFirstName ||
+          this.lastName !== this.formLastName ||
+          this.email !== this.formEmail
+        );
+      }
+    },
+    created() {
+      this.loadData();
     }
   }
 </script>
@@ -83,14 +139,14 @@ export default {
                            <i class="fa fa-envelope" aria-hidden="true"></i>
                        </span>
                    </div>
-
+                   
                    <div class="container-login100-form-btn">
                        <span class="login100-form-btn" @click="updateUser">
                            Update
                        </span>
                    </div>
                    
-                   <RouterLink to="/">
+                   <RouterLink to="/loggedin">
                     <div class="container-login100-form-btn">
                         <span class="login100-form-btn" @click="goHome">
                           Cancel

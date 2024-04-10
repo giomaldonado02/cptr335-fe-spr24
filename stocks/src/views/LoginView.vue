@@ -17,7 +17,9 @@
         };
         const response = await fetch('/be/authenticate', requestOptions);
         const data = await response.json();
-        console.log('<<<<< data = ', data);
+        if( data.status === 200){
+          this.$router.push("/loggedin")
+        }
       }
     }
   }
@@ -96,7 +98,7 @@ function submitForm(email, password) {
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input v-model="email" placeholder="Email">
+						<input class="input100" type="text" name="email" placeholder="Email" v-model="email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -104,7 +106,7 @@ function submitForm(email, password) {
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input v-model="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="pass" placeholder="Password" v-model="password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -112,14 +114,12 @@ function submitForm(email, password) {
 					</div>
 					
 					<div class="container-login100-form-btn">
-            <!--<router-link to="/loggedin">-->
               <span class="login100-form-btn" @click="authenticate">
                <a class="txt2"> 						
 							Login
                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
               </a> 
               </span>
-	          <!--</router-link>-->
 					</div>
 
 					<div class="text-center p-t-12">
@@ -143,8 +143,6 @@ function submitForm(email, password) {
 			</div>
 		</div>
 	</div>
-	<p>Email: {{ email }} </p>
-  <p>Password: {{ password }} </p>
 	
 
 	
