@@ -4,7 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import UpdateUser from '../views/UpdateUser.vue'
 import LoggedIn from '../views/LoggedInView.vue'
 import Welcome from '../views/Welcome.vue'
-import ForgottenPasswordView from '../views/ForgottenPasswordView'
+import ForgottenPasswordView from '../views/ForgottenPasswordView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
