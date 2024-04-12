@@ -7,13 +7,24 @@
                     <th v-for="column in columns">{{column}}</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr v-for="stock in stocks">
-                    <td>{{ stock.symbol }}</td>
-                    <td>{{ stock.name }}</td>
-                    <td>{{ $filters.currency(stock.price, '$', 5) }}</td>
-                    <td>{{ stock.date }}</td>
-                </tr>
+            <tbody v-for="stock in stocks">
+              <tr>
+                <td @click="buyStock(stock.symbol)">{{ stock.symbol }}</td>
+                <td>{{ stock.name }}</td>
+                <td>{{ $filters.currency(stock.price, '$', 5) }}</td>
+                <td>{{ stock.date }}</td>
+              </tr>
+              <tr v-if="isEditing && currentSymbol == stock.symbol">
+                <td>
+                  <button>Buy</button>
+                </td>
+                <td>
+                  <input type="text" v-model="numberOfStocks" maxlength="6" :on-change="calculateCost(stock.price)">
+                  X {{ $filters.currency(stock.price, '$', 5)  }} = {{ $filters.currency(cost) }}
+                </td>
+                <td></td>
+                <td @click="cancelBuy()">Cancel</td>
+              </tr>
             </tbody>
         </table>
        <button @click="closeDialog">Close</button>
@@ -28,6 +39,10 @@
         isOpen: false,
         stocks: [],
         columns: ["Symbol", "Name", "Price", "Date"],
+        numberOfStocks: 0,
+        cost: 0,
+        isEditing: false,
+        currentSymbol: "",
       };
     },
     methods: {
@@ -50,6 +65,21 @@
         if( response.status === 200){
           this.stocks = data;
         }
+      },
+      async buyStock(symbol) {
+        this.cost = 0;
+        this.numberOfStocks = 0;
+        this.currentSymbol = symbol;
+        this.isEditing = true;
+      },
+      cancelBuy() {
+        this.currentSymbol = '';
+        this.isEditing = false;
+        this.cost = 0;
+        this.numberOfStocks = 0;
+      },
+      calculateCost(price) {
+        this.cost = this.numberOfStocks * price;
       }
     },
     async beforeMount() {
