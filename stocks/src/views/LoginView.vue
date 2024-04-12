@@ -18,7 +18,7 @@
         const response = await fetch('/be/authenticate', requestOptions);
         const data = await response.json();
         if( data.status === 200){
-          this.$router.push("/loggedin")
+          this.$router.push("/welcome")
         }
       }
     }
