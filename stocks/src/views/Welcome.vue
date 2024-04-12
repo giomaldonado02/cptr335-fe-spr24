@@ -11,12 +11,10 @@ defineProps({
 export default {
   data() {
     return {
-      user: {
         firstName: '',
         lastName: '',
         email: '',
         balance: ''
-      }
     }
   },
   methods: {
@@ -34,14 +32,13 @@ export default {
         this.lastName = userData.lastName
         this.email = userData.email
         this.balance = userData.balance
-        console.log('<<<< Stuff =', firstName)
       } catch (error) {
         console.error('Error loading user data:', error)
       }
     }
   },
-  created() {
-    this.loadData()
+  async beforeMount() {
+    await this.loadData()
   }
 }
 </script>
@@ -170,6 +167,6 @@ li {
   text-align: right;
 }
 
-@media (min-width: 992px) {
+@media (max-width: 992px) {
 }
 </style>
