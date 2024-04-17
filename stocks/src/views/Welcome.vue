@@ -25,11 +25,12 @@ export default {
   },
   methods: {
     openDialog() {
-      this.showDialog = true;
+      this.showDialog = true
     },
     handleChildEvent(close) {
-      this.showDialog = close;
+      this.showDialog = close
     },
+
     async loadData() {
       try {
         const requestOptions = {
@@ -47,27 +48,30 @@ export default {
       } catch (error) {
         console.error('Error loading user data:', error)
       }
+    },
+
+    async logOut() {
+      try {
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch('be/logOut', requestOptions)
+        if (response.status === 200) {
+          this.$router.push('/')
+        } else {
+          alert('Error logging out!')
+        }
+      } catch (error) {
+        console.log('Error logging out:', error)
+      }
     }
   },
 
   async beforeMount() {
     await this.loadData()
-  },
-
-  async logOut() {
-    console.log('<<<< Finally calling method!')
-    try {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      console.log('<<<< Calling backend logOut!')
-      await fetch('be/logOut', requestOptions)
-    } catch (error) {
-      console.log('Error logging out:', error)
-    }
   }
 }
 </script>
@@ -85,7 +89,7 @@ export default {
       <button class="login100-form-btn">Change Password</button>
     </router-link>
 
-    <button class="login100-form-btn" @click="logOut">Log Out</button>
+    <button class="login100-form-btn" @click="logOut()">Log Out</button>
   </div>
 
   <div class="user-info">
