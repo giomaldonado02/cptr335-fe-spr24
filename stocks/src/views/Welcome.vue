@@ -73,10 +73,18 @@ export default {
 </script>
 
 <template>
-  <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-  <Stocks v-if="showDialog" @child-event="handleChildEvent"> </Stocks>
+
+  <div class="user-info">
+    <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
+    <p>Email: {{ email }}</p>
+    <p>Current Balance: ${{ balance }}</p>
+  </div>
 
   <div class="container-login100-form-btn">
+
+    <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
+    <Stocks v-if="showDialog" @child-event="handleChildEvent"></Stocks>
+
     <router-link to="/update">
       <button class="login100-form-btn">Update User</button>
     </router-link>
@@ -88,11 +96,6 @@ export default {
     <button class="login100-form-btn" @click="logOut">Log Out</button>
   </div>
 
-  <div class="user-info">
-    <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
-    <p>Email: {{ email }}</p>
-    <p>Current Balance: ${{ balance }}</p>
-  </div>
 </template>
 
 <style>
@@ -226,7 +229,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 25px;
+  padding: 0 20px;
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
@@ -236,5 +239,14 @@ li {
 
 .login100-form-btn:hover {
   background: #333333;
+}
+
+/*///////////////////////////////////////////////////////
+[User Info]*/
+
+.user-info {
+  font-family: Poppins-Regular;
+  padding: 25px;
+  align-items: center;
 }
 </style>
