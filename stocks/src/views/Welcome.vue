@@ -19,10 +19,17 @@ export default {
       firstName: '',
       lastName: '',
       email: '',
-      balance: ''
+      balance: '',
+      showDialog: false
     }
   },
   methods: {
+    openDialog() {
+      this.showDialog = true;
+    },
+    handleChildEvent(close) {
+      this.showDialog = close;
+    },
     async loadData() {
       try {
         const requestOptions = {
@@ -66,8 +73,8 @@ export default {
 </script>
 
 <template>
-  <!-- <button v-if="!showDialog" @click="openDialog">Buy Stock</button>
-  <Stocks v-if="showDialog" @child-event="handleChildEvent"> </Stocks> -->
+  <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
+  <Stocks v-if="showDialog" @child-event="handleChildEvent"> </Stocks>
 
   <div class="container-login100-form-btn">
     <router-link to="/update">
