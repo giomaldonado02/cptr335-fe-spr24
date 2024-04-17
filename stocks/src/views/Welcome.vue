@@ -8,7 +8,12 @@ defineProps({
 </script> -->
 
 <script>
+import Stocks from '../components/Stocks.vue';
+
 export default {
+  components: {
+    Stocks
+  },
   data() {
     return {
       firstName: '',
@@ -59,6 +64,11 @@ export default {
 
 <template>
   <div>
+    <div>
+      <button v-if="!showDialog" @click="openDialog">Buy Stock</button>
+      <Stocks v-if="showDialog" @child-event="handleChildEvent">
+      </Stocks>
+    </div> 
     <div class="user-update-link">
       <router-link to="/update">
         <a class="txt2">
