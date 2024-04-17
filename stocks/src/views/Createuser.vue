@@ -14,7 +14,9 @@ export default {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      confirmemail: '',
+      password: '',
+      confirmpassword:''
     }
   },
   methods: {
@@ -96,7 +98,7 @@ export default {
                    </div>
 
                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                       <input class="input100" type="text" name="confirm email" placeholder="Confirm Email" v-model="email">
+                       <input class="input100" type="text" name="confirm email" placeholder="Confirm Email" v-model="confirmemail">
                        <span class="focus-input100"></span>
                        <span class="symbol-input100">
                            <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -112,7 +114,7 @@ export default {
                    </div>
 
                    <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                       <input class="input100" type="password" name="confirm pass" placeholder="Confirm Password" v-model="password">
+                       <input class="input100" type="password" name="confirm pass" placeholder="Confirm Password" v-model="confirmpassword">
                        <span class="focus-input100"></span>
                        <span class="symbol-input100">
                            <i class="fa fa-lock" aria-hidden="true"></i>
