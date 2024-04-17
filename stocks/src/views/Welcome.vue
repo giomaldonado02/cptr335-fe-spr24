@@ -11,10 +11,10 @@ defineProps({
 export default {
   data() {
     return {
-        firstName: '',
-        lastName: '',
-        email: '',
-        balance: ''
+      firstName: '',
+      lastName: '',
+      email: '',
+      balance: ''
     }
   },
   methods: {
@@ -37,8 +37,22 @@ export default {
       }
     }
   },
+
   async beforeMount() {
     await this.loadData()
+  },
+  async logOut() {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      fetch('be/logOut', requestOptions)
+    } catch (error) {
+      console.log('Error logging out:', error)
+    }
   }
 }
 </script>
@@ -55,6 +69,9 @@ export default {
     </div>
     <div class="change-password">
       <a class="txt2" href="#"> Change Password </a>
+    </div>
+    <div class="log-out">
+      <a class="txt2" href="#" @click="logOut"> Log Out </a>
     </div>
     <div class="user-info">
       <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
