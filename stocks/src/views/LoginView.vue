@@ -1,28 +1,28 @@
 <script>
-  export default {
-    data() {
-      return{ 
-        email: '',
-        password: ''
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    async authenticate() {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: this.email, password: this.password })
       }
-    },
-    methods: {
-      async authenticate() {
-        const requestOptions = {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: this.email, password: this.password })
-        };
-        const response = await fetch('/be/authenticate', requestOptions);
-        const data = await response.json();
-        if( data.status === 200){
-          this.$router.push("/welcome")
-        }
+      const response = await fetch('/be/authenticate', requestOptions)
+      const data = await response.json()
+      if (data.status === 200) {
+        this.$router.push('/welcome')
       }
     }
   }
+}
 </script>
 <!--<script>
 const emit = defineEmits({
@@ -45,198 +45,215 @@ function submitForm(email, password) {
 }
 </script>-->
 
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 <!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
 <!--===============================================================================================-->
-	<!-- <script src="vendor/bootstrap/js/popper.js"></script>
+<!-- <script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
 <!--===============================================================================================-->
-	<!-- <script src="vendor/select2/select2.min.js"></script> -->
+<!-- <script src="vendor/select2/select2.min.js"></script> -->
 <!--===============================================================================================-->
-	<!-- <script src="vendor/tilt/tilt.jquery.min.js"></script> -->
-	<!-- <script > -->
-		<!-- $('.js-tilt').tilt({
+<!-- <script src="vendor/tilt/tilt.jquery.min.js"></script> -->
+<!-- <script > -->
+<!-- $('.js-tilt').tilt({
 			scale: 1.1
 		})
 	</script> -->
 <!--===============================================================================================-->
-	<!-- <script src="js/main.js"></script> -->
+<!-- <script src="js/main.js"></script> -->
 <template>
   <head>
-	<title>Login V1</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	
-	 <link rel="icon" type="image/png" href="../assets/Login/images/icons/favicon.ico"/> 
+    <title>Login V1</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/bootstrap/css/bootstrap.min.css"> 
+    <link rel="icon" type="image/png" href="../assets/Login/images/icons/favicon.ico" />
 
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css"> 
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../assets/Login/vendor/bootstrap/css/bootstrap.min.css"
+    />
 
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/animate/animate.css"> 
-	
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/css-hamburgers/hamburgers.min.css"> 
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../assets/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
 
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/select2/select2.min.css"> 
+    <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/animate/animate.css" />
 
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/css/util.css"> 
-	 <link rel="stylesheet" type="text/css" href="../assets/Login/css/main.css"> 
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../assets/Login/vendor/css-hamburgers/hamburgers.min.css"
+    />
 
- </head>
-<body> 
-  
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-pic js-tilt" data-tilt>
-					<img src="../assets/Login/images/img-01.png" alt="IMG">
-				</div>
+    <link rel="stylesheet" type="text/css" href="../assets/Login/vendor/select2/select2.min.css" />
 
-				<form class="login100-form validate-form">
-					<span class="login100-form-title">
-						Member Login
-					</span>
+    <link rel="stylesheet" type="text/css" href="../assets/Login/css/util.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/Login/css/main.css" />
+  </head>
+  <body>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <div class="login100-pic js-tilt" data-tilt>
+            <img src="../assets/Login/images/img-01.png" alt="IMG" />
+          </div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email" v-model="email">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
-						</span>
-					</div>
+          <form class="login100-form validate-form">
+            <span class="login100-form-title"> Member Login </span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password" v-model="password">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-lock" aria-hidden="true"></i>
-						</span>
-					</div>
-					
-					<div class="container-login100-form-btn">
-              <span class="login100-form-btn" @click="authenticate">
-               <a class="txt2"> 						
-							Login
-               <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-              </a> 
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Valid email is required: ex@abc.xyz"
+            >
+              <input
+                class="input100"
+                type="text"
+                name="email"
+                placeholder="Email"
+                v-model="email"
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
               </span>
-					</div>
+            </div>
 
-					<div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-						<a class="txt2" href="#">
-							Username / Password?
-						</a>
-					</div>
+            <div class="wrap-input100 validate-input" data-validate="Password is required">
+              <input
+                class="input100"
+                type="password"
+                name="pass"
+                placeholder="Password"
+                v-model="password"
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
 
-					<div class="text-center p-t-136">
-            <router-link to="/create">
-               <a class="txt2"> 
-                Create your Account
-                 <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-              </a> 
-	          </router-link>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	
+            <div class="container-login100-form-btn">
+              <span class="login100-form-btn" @click="authenticate">
+                <a class="txt2">
+                  Login
+                  <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                </a>
+              </span>
+            </div>
 
-	
+            <div class="text-center p-t-12">
+              <span class="txt1"> Forgot </span>
+              <a class="txt2" href="#"> Username / Password? </a>
+            </div>
 
- </body> 
-  </template>
-  
-  <style>
+            <div class="text-center p-t-136">
+              <router-link to="/create">
+                <a class="txt2">
+                  Create your Account
+                  <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                </a>
+              </router-link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</template>
 
-
-
-
+<style>
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../assets/Login/fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../assets/Login/fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../assets/Login/fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../assets/Login/fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../assets/Login/fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../assets/Login/fonts/poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Montserrat-Bold;
-  src: url('../assets/Login/fonts/montserrat/Montserrat-Bold.ttf'); 
+  src: url('../assets/Login/fonts/montserrat/Montserrat-Bold.ttf');
 }
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: Poppins-Regular, sans-serif;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
 }
 
 a:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
   color: #57b846;
 }
 
 /*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
 }
 
 p {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
 }
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+ul,
+li {
+  margin: 0px;
+  list-style-type: none;
 }
-
 
 /*---------------------------------------------*/
 input {
-	outline: none;
-	border: none;
+  outline: none;
+  border: none;
 }
 
 textarea {
@@ -244,45 +261,77 @@ textarea {
   border: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; }
-input:focus::-moz-placeholder { color:transparent; }
-input:focus:-ms-input-placeholder { color:transparent; }
+input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+input:focus:-moz-placeholder {
+  color: transparent;
+}
+input:focus::-moz-placeholder {
+  color: transparent;
+}
+input:focus:-ms-input-placeholder {
+  color: transparent;
+}
 
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
+textarea:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+textarea:focus:-moz-placeholder {
+  color: transparent;
+}
+textarea:focus::-moz-placeholder {
+  color: transparent;
+}
+textarea:focus:-ms-input-placeholder {
+  color: transparent;
+}
 
-input::-webkit-input-placeholder { color: #999999; }
-input:-moz-placeholder { color: #999999; }
-input::-moz-placeholder { color: #999999; }
-input:-ms-input-placeholder { color: #999999; }
+input::-webkit-input-placeholder {
+  color: #999999;
+}
+input:-moz-placeholder {
+  color: #999999;
+}
+input::-moz-placeholder {
+  color: #999999;
+}
+input:-ms-input-placeholder {
+  color: #999999;
+}
 
-textarea::-webkit-input-placeholder { color: #999999; }
-textarea:-moz-placeholder { color: #999999; }
-textarea::-moz-placeholder { color: #999999; }
-textarea:-ms-input-placeholder { color: #999999; }
+textarea::-webkit-input-placeholder {
+  color: #999999;
+}
+textarea:-moz-placeholder {
+  color: #999999;
+}
+textarea::-moz-placeholder {
+  color: #999999;
+}
+textarea:-ms-input-placeholder {
+  color: #999999;
+}
 
 /*---------------------------------------------*/
 button {
-	outline: none !important;
-	border: none;
-	background: transparent;
+  outline: none !important;
+  border: none;
+  background: transparent;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 iframe {
-	border: none !important;
+  border: none !important;
 }
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
@@ -300,7 +349,6 @@ iframe {
   color: #666666;
 }
 
-
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
 
@@ -310,7 +358,7 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -354,7 +402,6 @@ iframe {
   max-width: 100%;
 }
 
-
 /*------------------------------------------------------------------
 [  ]*/
 .login100-form {
@@ -372,7 +419,6 @@ iframe {
   display: block;
   padding-bottom: 54px;
 }
-
 
 /*---------------------------------------------*/
 .wrap-input100 {
@@ -396,7 +442,6 @@ iframe {
   padding: 0 30px 0 68px;
 }
 
-
 /*------------------------------------------------------------------
 [ Focus ]*/
 .focus-input100 {
@@ -409,7 +454,7 @@ iframe {
   width: 100%;
   height: 100%;
   box-shadow: 0px 0px 0px 0px;
-  color: rgba(87,184,70, 0.8);
+  color: rgba(87, 184, 70, 0.8);
 }
 
 .input100:focus + .focus-input100 {
@@ -505,12 +550,8 @@ iframe {
   background: #333333;
 }
 
-
-
 /*------------------------------------------------------------------
 [ Responsive ]*/
-
-
 
 @media (max-width: 992px) {
   .wrap-login100 {
@@ -545,7 +586,6 @@ iframe {
     padding: 100px 15px 33px 15px;
   }
 }
-
 
 /*------------------------------------------------------------------
 [ Alert validate ]*/
@@ -587,7 +627,7 @@ iframe {
 }
 
 .alert-validate::after {
-  content: "\f06a";
+  content: '\f06a';
   font-family: FontAwesome;
   display: block;
   position: absolute;
@@ -613,4 +653,4 @@ iframe {
     opacity: 1;
   }
 }
-  </style>
+</style>
