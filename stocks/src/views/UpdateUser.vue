@@ -146,7 +146,7 @@ export default {
                        </span>
                    </div>
                    
-                   <RouterLink to="/loggedin">
+                   <RouterLink to="/welcome">
                     <div class="container-login100-form-btn">
                         <span class="login100-form-btn" @click="goHome">
                           Cancel
