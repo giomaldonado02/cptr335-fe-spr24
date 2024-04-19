@@ -81,7 +81,7 @@
             "Content-Type": "application/json",
           }
         };
-        const response = await fetch(`/be/stock/price/${symbol}`, requestOptions);
+        let response = await fetch(`/be/stock/price/${symbol}`, requestOptions);
         console.log('<<<<< response = ', response);
         const data = await response.json();
         console.log('<<<<< data = ', data);
@@ -100,6 +100,9 @@
           this.errorMessage = 'You do not have enough funds to purchase that main stocks.';
           return;
         }
+        requestOptions.method = 'POST';
+        response = await fetch(`/be/stock/buy/${symbol}/${this.numberOfStocks}`, requestOptions);
+        console.log('<<<<< response = ', response.json());
         this.isEditing = false;
         this.currentSymbol = '';
       },
