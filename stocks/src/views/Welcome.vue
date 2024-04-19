@@ -20,6 +20,7 @@ export default {
       lastName: '',
       email: '',
       balance: '',
+      portfolio: '',
       showDialog: false
     }
   },
@@ -45,6 +46,7 @@ export default {
         this.lastName = userData.lastName
         this.email = userData.email
         this.balance = userData.balance
+        this.portfolio = userData.portfolio
       } catch (error) {
         console.error('Error loading user data:', error)
       }
@@ -83,6 +85,7 @@ export default {
     <p>Email: {{ email }}</p>
     <p>Current Balance: ${{ balance }}</p>
   </div>
+  
 
   <div class="container-login100-form-btn">
 
@@ -100,6 +103,11 @@ export default {
     <button class="login100-form-btn" @click="logOut()">Log Out</button>
   </div>
 
+  <div class="portfolio-info">
+    <h2>Portfolio</h2>
+    <p>{{ portfolio }}</p>
+    <p>Luchocoins</p>
+  </div>
 </template>
 
 <style>
@@ -249,6 +257,12 @@ li {
 [User Info]*/
 
 .user-info {
+  font-family: Poppins-Regular;
+  padding: 25px;
+  align-items: center;
+}
+
+.portfolio-info {
   font-family: Poppins-Regular;
   padding: 25px;
   align-items: center;
