@@ -25,11 +25,12 @@ export default {
   },
   methods: {
     openDialog() {
-      this.showDialog = true;
+      this.showDialog = true
     },
     handleChildEvent(close) {
-      this.showDialog = close;
+      this.showDialog = close
     },
+
     async loadData() {
       try {
         const requestOptions = {
@@ -47,36 +48,47 @@ export default {
       } catch (error) {
         console.error('Error loading user data:', error)
       }
+    },
+
+    async logOut() {
+      try {
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch('be/logOut', requestOptions)
+        if (response.status === 200) {
+          this.$router.push('/')
+        } else {
+          alert('Error logging out!')
+        }
+      } catch (error) {
+        console.log('Error logging out:', error)
+      }
     }
   },
 
   async beforeMount() {
     await this.loadData()
-  },
-
-  async logOut() {
-    console.log('<<<< Finally calling method!')
-    try {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      console.log('<<<< Calling backend logOut!')
-      await fetch('be/logOut', requestOptions)
-    } catch (error) {
-      console.log('Error logging out:', error)
-    }
   }
 }
 </script>
 
 <template>
-  <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-  <Stocks v-if="showDialog" @child-event="handleChildEvent"> </Stocks>
+
+  <div class="user-info">
+    <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
+    <p>Email: {{ email }}</p>
+    <p>Current Balance: ${{ balance }}</p>
+  </div>
 
   <div class="container-login100-form-btn">
+
+    <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
+    <Stocks v-if="showDialog" @child-event="handleChildEvent" :balance="balance"></Stocks>
+
     <router-link to="/update">
       <button class="login100-form-btn">Update User</button>
     </router-link>
@@ -85,14 +97,9 @@ export default {
       <button class="login100-form-btn">Change Password</button>
     </router-link>
 
-    <button class="login100-form-btn" @click="logOut">Log Out</button>
+    <button class="login100-form-btn" @click="logOut()">Log Out</button>
   </div>
 
-  <div class="user-info">
-    <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
-    <p>Email: {{ email }}</p>
-    <p>Current Balance: ${{ balance }}</p>
-  </div>
 </template>
 
 <style>
@@ -226,7 +233,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 25px;
+  padding: 0 20px;
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
@@ -236,5 +243,14 @@ li {
 
 .login100-form-btn:hover {
   background: #333333;
+}
+
+/*///////////////////////////////////////////////////////
+[User Info]*/
+
+.user-info {
+  font-family: Poppins-Regular;
+  padding: 25px;
+  align-items: center;
 }
 </style>

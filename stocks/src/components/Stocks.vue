@@ -9,31 +9,34 @@
             </thead>
             <tbody v-for="stock in stocks">
               <tr>
-                <td @click="buyStock(stock.symbol)">{{ stock.symbol }}</td>
+                <td @click="buyStock(stock.symbol)"><u>{{ stock.symbol }}</u></td>
                 <td>{{ stock.name }}</td>
                 <td>{{ $filters.currency(stock.price, '$', 5) }}</td>
                 <td>{{ stock.date }}</td>
               </tr>
               <tr v-if="isEditing && currentSymbol == stock.symbol">
                 <td>
-                  <button>Buy</button>
+                  <button v-if="numberOfStocks == 0" class="small-button-inactive">Buy</button>
+                  <button v-if="numberOfStocks > 0" class="small-button" @click="addStock(stock.symbol)">Buy</button>
                 </td>
                 <td>
-                  <input type="text" v-model="numberOfStocks" maxlength="6" :on-change="calculateCost(stock.price)">
+                  <input class="inputbox" type="text" v-model="numberOfStocks" maxlength="6" :on-change="calculateCost(stock.price)" size="6">
                   X {{ $filters.currency(stock.price, '$', 5)  }} = {{ $filters.currency(cost) }}
                 </td>
                 <td></td>
-                <td @click="cancelBuy()">Cancel</td>
+                <td @click="cancelBuy()" class="small-button">Cancel</td>
               </tr>
             </tbody>
         </table>
-       <button @click="closeDialog">Close</button>
+        <div v-if="error" class="error-style">{{ errorMessage }}</div>
+       <button @click="closeDialog" class="button">Close</button>
       </div>
     </div>
   </template>
   
   <script>
   export default {
+    props: ['balance'],
     data() {
       return {
         isOpen: false,
@@ -43,11 +46,14 @@
         cost: 0,
         isEditing: false,
         currentSymbol: "",
+        error: false,
+        errorMessage: '',
       };
     },
     methods: {
       openDialog() {
         this.isOpen = true;
+        this.error = false;
       },
       closeDialog() {
         this.isOpen = false;
@@ -66,13 +72,49 @@
           this.stocks = data;
         }
       },
+      async addStock(symbol) {
+        this.error = false;
+        let price = 0
+        const requestOptions = {
+          method: "GET",
+          headers: { 
+            "Content-Type": "application/json",
+          }
+        };
+        let response = await fetch(`/be/stock/price/${symbol}`, requestOptions);
+        console.log('<<<<< response = ', response);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
+        if( response.status == 200){
+          price = data.price;
+        } else {
+          this.error = true;
+          this.errorMessage = 'Error getting stock price.';
+          return;
+        }
+        this.cost = this.numberOfStocks * price;
+        console.log('<<<<< cost = ', this.cost);
+        if (this.cost > this.$props.balance) {
+          this.error = true;
+          this.cost = 0;
+          this.errorMessage = 'You do not have enough funds to purchase that main stocks.';
+          return;
+        }
+        requestOptions.method = 'POST';
+        response = await fetch(`/be/stock/buy/${symbol}/${this.numberOfStocks}`, requestOptions);
+        console.log('<<<<< response = ', response.json());
+        this.isEditing = false;
+        this.currentSymbol = '';
+      },
       async buyStock(symbol) {
+        this.error = false;
         this.cost = 0;
         this.numberOfStocks = 0;
         this.currentSymbol = symbol;
         this.isEditing = true;
       },
       cancelBuy() {
+        this.error = false;
         this.currentSymbol = '';
         this.isEditing = false;
         this.cost = 0;
@@ -109,5 +151,93 @@
     padding: 20px;
     border-radius: 5px;
   }
-  </style>
+
+  .inputbox {
+    background-color: beige;
+    text-align: right;
+  }
+
+  .button {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #57b846;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.small-button {
+  font-family: Montserrat-Bold;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 30px;
+  border-radius: 15px;
+  background: #57b846;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.small-button-inactive {
+  font-family: Montserrat-Bold;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 30px;
+  border-radius: 15px;
+  background: rgb(211, 235, 184);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.error-style {
+  color: red;
+  text-align: center;
+}
+</style>
   
