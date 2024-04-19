@@ -31,6 +31,9 @@ export default {
     handleChildEvent(close) {
       this.showDialog = close
     },
+    handleBalanceEvent(balance) {
+      this.balance = balance;
+    },
 
     async loadData() {
       try {
@@ -83,14 +86,14 @@ export default {
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
     <p>Email: {{ email }}</p>
-    <p>Current Balance: ${{ balance }}</p>
+    <p>Current Balance: {{ $filters.currency(balance)  }}</p>
   </div>
   
 
   <div class="container-login100-form-btn">
 
     <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks v-if="showDialog" @child-event="handleChildEvent" :balance="balance"></Stocks>
+    <Stocks v-if="showDialog" @child-event="handleChildEvent" @balance-event="handleBalanceEvent" :balance="balance"></Stocks>
 
     <router-link to="/update">
       <button class="login100-form-btn">Update User</button>
