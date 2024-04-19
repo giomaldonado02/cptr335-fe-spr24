@@ -17,7 +17,7 @@
               <tr v-if="isEditing && currentSymbol == stock.symbol">
                 <td>
                   <button v-if="numberOfStocks == 0" class="small-button-inactive">Buy</button>
-                  <button v-if="numberOfStocks > 0" class="small-button">Buy</button>
+                  <button v-if="numberOfStocks > 0" class="small-button" @click="addStock(stock.symbol)">Buy</button>
                 </td>
                 <td>
                   <input class="inputbox" type="text" v-model="numberOfStocks" maxlength="6" :on-change="calculateCost(stock.price)" size="6">
@@ -28,6 +28,7 @@
               </tr>
             </tbody>
         </table>
+        <div v-if="error" class="error-style">{{ errorMessage }}</div>
        <button @click="closeDialog" class="button">Close</button>
       </div>
     </div>
@@ -45,11 +46,14 @@
         cost: 0,
         isEditing: false,
         currentSymbol: "",
+        error: false,
+        errorMessage: '',
       };
     },
     methods: {
       openDialog() {
         this.isOpen = true;
+        this.error = false;
       },
       closeDialog() {
         this.isOpen = false;
@@ -68,13 +72,49 @@
           this.stocks = data;
         }
       },
+      async addStock(symbol) {
+        this.error = false;
+        let price = 0
+        const requestOptions = {
+          method: "GET",
+          headers: { 
+            "Content-Type": "application/json",
+          }
+        };
+        let response = await fetch(`/be/stock/price/${symbol}`, requestOptions);
+        console.log('<<<<< response = ', response);
+        const data = await response.json();
+        console.log('<<<<< data = ', data);
+        if( response.status == 200){
+          price = data.price;
+        } else {
+          this.error = true;
+          this.errorMessage = 'Error getting stock price.';
+          return;
+        }
+        this.cost = this.numberOfStocks * price;
+        console.log('<<<<< cost = ', this.cost);
+        if (this.cost > this.$props.balance) {
+          this.error = true;
+          this.cost = 0;
+          this.errorMessage = 'You do not have enough funds to purchase that main stocks.';
+          return;
+        }
+        requestOptions.method = 'POST';
+        response = await fetch(`/be/stock/buy/${symbol}/${this.numberOfStocks}`, requestOptions);
+        console.log('<<<<< response = ', response.json());
+        this.isEditing = false;
+        this.currentSymbol = '';
+      },
       async buyStock(symbol) {
+        this.error = false;
         this.cost = 0;
         this.numberOfStocks = 0;
         this.currentSymbol = symbol;
         this.isEditing = true;
       },
       cancelBuy() {
+        this.error = false;
         this.currentSymbol = '';
         this.isEditing = false;
         this.cost = 0;
@@ -195,5 +235,9 @@
   transition: all 0.4s;
 }
 
+.error-style {
+  color: red;
+  text-align: center;
+}
 </style>
   
