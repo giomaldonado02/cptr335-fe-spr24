@@ -101,6 +101,7 @@
         response = await fetch(`/be/stock/buy/${symbol}/${this.numberOfStocks}`, requestOptions);
         const results = await response.json();
         this.$emit('balance-event', results.newBalance);
+        this.$emit('new-portfolio', results.portfolio);
         this.isEditing = false;
         this.currentSymbol = '';
       },

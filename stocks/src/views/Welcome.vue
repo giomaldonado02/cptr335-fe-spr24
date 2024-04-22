@@ -34,6 +34,9 @@ export default {
     handleBalanceEvent(balance) {
       this.balance = balance;
     },
+    handleNewPortfolio(portfolio) {
+      this.portfolio = portfolio;
+    },
 
     async loadData() {
       try {
@@ -93,7 +96,7 @@ export default {
   <div class="container-login100-form-btn">
 
     <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks v-if="showDialog" @child-event="handleChildEvent" @balance-event="handleBalanceEvent" :balance="balance"></Stocks>
+    <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :balance="balance"></Stocks>
 
     <router-link to="/update">
       <button class="login100-form-btn">Update User</button>
