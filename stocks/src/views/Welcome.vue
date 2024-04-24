@@ -20,8 +20,10 @@ export default {
       firstName: '',
       lastName: '',
       email: '',
-      balance: '',
-      portfolio: '',
+      cashBalance: 0,
+      stockValue: 0,
+      balance: 0,
+      portfolio: [],
       showDialog: false
     }
   },
@@ -33,33 +35,10 @@ export default {
       this.showDialog = close
     },
     handleBalanceEvent(balance) {
-      this.balance = balance;
+      this.cashBalance = balance;
     },
     handleNewPortfolio(portfolio) {
-      this.portfolio = portfolio;
-    },
-    async stockPrice(symbol) {
-      const requestOptions = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-        const response = await fetch(`/be/stock/${symbol}`, requestOptions)
-        const stockData = response.json()
-        console.log(response)
-        return stockData.price;
-    },
-    async stockName(symbol) {
-      const requestOptions = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-        const response = await fetch(`/be/stock/${symbol}`, requestOptions)
-        const stockData = await response.json()
-        return stockData.name;
+      this.loadArray(portfolio);
     },
 
     async loadData() {
@@ -75,11 +54,39 @@ export default {
         this.firstName = userData.firstName
         this.lastName = userData.lastName
         this.email = userData.email
-        this.balance = userData.balance
-        this.portfolio = userData.portfolio
+        this.cashBalance = userData.balance
+        this.loadArray(userData.portfolio)
       } catch (error) {
         console.error('Error loading user data:', error)
       }
+    },
+
+    async sellStock(symbol) {
+      console.log('<<<<< symbol = ', symbol);
+    },
+    
+    async loadArray(portfolio) {
+      this.stockValue = 0;
+      this.balance = 0;
+      this.portfolio = portfolio;
+      this.portfolio.map(async stock => {
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch(`/be/stock/${stock.symbol}`, requestOptions);
+        const stockData = await response.json();
+        this.portfolio.filter(s => s.symbol == stock.symbol).forEach(st => {
+          st.price = stockData.price;
+          st.name = stockData.name;
+          st.value = stockData.price * stock.quantity;
+          this.stockValue += st.value;
+          this.balance += st.value;
+        })
+      });
+      this.balance += this.cashBalance;
     },
 
     async logOut() {
@@ -113,14 +120,16 @@ export default {
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
     <p>Email: {{ email }}</p>
-    <p>Current Balance: {{ $filters.currency(balance)  }}</p>
+    <p>Cash Balance: {{ $filters.currency(cashBalance)  }}</p>
+    <p>Stock Value: {{ $filters.currency(stockValue)  }}</p>
+    <p>Net Worth: {{ $filters.currency(balance)  }}</p>
   </div>
   
 
   <div class="container-login100-form-btn">
 
     <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :balance="balance"></Stocks>
+    <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :cashBalance="balance"></Stocks>
 
     <router-link to="/update">
       <button class="login100-form-btn">Update User</button>
@@ -143,16 +152,14 @@ export default {
       </thead>
       <tbody v-for="stock in portfolio">
         <tr>
-          <td>{{ stock.symbol }}</td>
-          <!-- <td>{{ stockName(stock.symbol) }}</td>  -->
+          <td @click="sellStock(stock.symbol)"><u>{{ stock.symbol }}</u></td>
+          <td>{{ stock.name }}</td> 
           <td>{{ stock.quantity }}</td>
-          <td>{{ $filters.currency(stockPrice(stock.symbol), '$', 5) }}</td> 
-          <td>{{ stock.value }}</td> 
+          <td>{{ $filters.currency(stock.price, '$', 5) }}</td> 
+          <td>{{ $filters.currency(stock.value) }}</td> 
         </tr>
       </tbody>
     </table>
-    <p>{{ portfolio }}</p>
-    <p>Luchocoins</p>
   </div>
 </template>
 
