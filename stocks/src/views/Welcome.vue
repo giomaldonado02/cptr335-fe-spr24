@@ -16,6 +16,7 @@ export default {
   },
   data() {
     return {
+      columns: ["Symbol", "Name", "Quant", "Price", "Value"],
       firstName: '',
       lastName: '',
       email: '',
@@ -36,6 +37,29 @@ export default {
     },
     handleNewPortfolio(portfolio) {
       this.portfolio = portfolio;
+    },
+    async stockPrice(symbol) {
+      const requestOptions = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch(`/be/stock/${symbol}`, requestOptions)
+        const stockData = response.json()
+        console.log(response)
+        return stockData.price;
+    },
+    async stockName(symbol) {
+      const requestOptions = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch(`/be/stock/${symbol}`, requestOptions)
+        const stockData = await response.json()
+        return stockData.name;
     },
 
     async loadData() {
@@ -111,6 +135,22 @@ export default {
 
   <div class="portfolio-info">
     <h2>Portfolio</h2>
+    <table>
+      <thead>
+        <tr>
+          <th v-for="column in columns">{{ column }}</th>
+        </tr>
+      </thead>
+      <tbody v-for="stock in portfolio">
+        <tr>
+          <td>{{ stock.symbol }}</td>
+          <!-- <td>{{ stockName(stock.symbol) }}</td>  -->
+          <td>{{ stock.quantity }}</td>
+          <td>{{ $filters.currency(stockPrice(stock.symbol), '$', 5) }}</td> 
+          <td>{{ stock.value }}</td> 
+        </tr>
+      </tbody>
+    </table>
     <p>{{ portfolio }}</p>
     <p>Luchocoins</p>
   </div>
