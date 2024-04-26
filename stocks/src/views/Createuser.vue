@@ -1,4 +1,6 @@
 <script setup>
+import router from '@/router';
+
 defineProps({
   msg: {
     type: String,
@@ -16,11 +18,14 @@ export default {
       email: '',
       confirmemail: '',
       password: '',
-      confirmpassword:''
+      confirmpassword:'',
+      error: false,
+      errormessage: ''
     }
   },
   methods: {
     async createUser() {
+      this.error = false
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -35,10 +40,13 @@ export default {
       }
       try {
         if (!(await this.isEmailValid(this.email))) {
+          this.error = true
+          this.errormessage = "Email is invalid"
           return
         }
         const response = await fetch(`/be/createUser`, requestOptions)
         const data = await response.json()
+        router.push("/")
       } catch (error) {
         console.error('Error with email address.')
       }
@@ -120,7 +128,9 @@ export default {
                            <i class="fa fa-lock" aria-hidden="true"></i>
                        </span>
                    </div>
-                  
+                  <div v-if="error">
+                    {{ errormessage }}
+                  </div>
                    <div class="container-login100-form-btn">
                        <span class="login100-form-btn" @click="createUser">
                            Create
