@@ -44,6 +44,40 @@ export default {
           this.errormessage = "Email is invalid"
           return
         }
+        if (this.email != this.confirmemail){
+            this.error = true
+            this.errormessage = "Emails do not match"
+            return
+          }
+        if (this.password != this.confirmpassword){
+            this.error = true
+            this.errormessage = "Passwords do not match"
+            return
+          }
+        if(this.firstName == null){
+          this.error = true
+          this.errormessage = "Please fill in all fields"
+        }
+        if(this.lastname == null){
+          this.error = true
+          this.errormessage = "Please fill in all fields"
+        }
+        if(this.password == null){
+          this.error = true
+          this.errormessage = "Please fill in all fields"
+        }
+        if(this.email == null){
+          this.error = true
+          this.errormessage = "Please fill in all fields"
+        }
+        if(this.confirmemail == null){
+          this.error = true
+          this.errormessage = "Please fill in all fields"
+        }
+        if(this.confirmpassword == null){
+          this.error = true
+          this.errormessage = "Please fill in all fields"
+        }
         const response = await fetch(`/be/createUser`, requestOptions)
         const data = await response.json()
         router.push("/")
