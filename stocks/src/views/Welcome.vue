@@ -147,16 +147,16 @@ export default {
     <table>
       <thead>
         <tr>
-          <th v-for="column in columns">{{ column }}</th>
+          <th class="col-head" v-for="column in columns">{{ column }}</th>
         </tr>
       </thead>
       <tbody v-for="stock in portfolio">
-        <tr>
+        <tr class="table-info">
           <td @click="sellStock(stock.symbol)"><u>{{ stock.symbol }}</u></td>
           <td>{{ stock.name }}</td> 
-          <td>{{ stock.quantity }}</td>
-          <td>{{ $filters.currency(stock.price, '$', 5) }}</td> 
-          <td>{{ $filters.currency(stock.value) }}</td> 
+          <td class="numberz">{{ stock.quantity }}</td>
+          <td class="numberz">{{ $filters.currency(stock.price, '$', 5) }}</td> 
+          <td class="numberz">{{ $filters.currency(stock.value) }}</td> 
         </tr>
       </tbody>
     </table>
@@ -226,7 +226,9 @@ a:hover {
 
 /*---------------------------------------------*/
 h1,
-h2,
+h2 {
+  font-weight: bold;
+}
 h3,
 h4,
 h5,
@@ -319,5 +321,18 @@ li {
   font-family: Poppins-Regular;
   padding: 25px;
   align-items: center;
+}
+
+.col-head {
+  font-weight: bold;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+}
+
+.numberz {
+  text-align: right;
 }
 </style>
