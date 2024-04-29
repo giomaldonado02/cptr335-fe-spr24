@@ -81,10 +81,8 @@
             "Content-Type": "application/json",
           }
         };
-        let response = await fetch(`/be/stock/price/${symbol}`, requestOptions);
-        console.log('<<<<< response = ', response);
+        let response = await fetch(`/be/stock/${symbol}`, requestOptions);
         const data = await response.json();
-        console.log('<<<<< data = ', data);
         if( response.status == 200){
           price = data.price;
         } else {
@@ -93,7 +91,6 @@
           return;
         }
         this.cost = this.numberOfStocks * price;
-        console.log('<<<<< cost = ', this.cost);
         if (this.cost > this.$props.balance) {
           this.error = true;
           this.cost = 0;
@@ -102,7 +99,9 @@
         }
         requestOptions.method = 'POST';
         response = await fetch(`/be/stock/buy/${symbol}/${this.numberOfStocks}`, requestOptions);
-        console.log('<<<<< response = ', response.json());
+        const results = await response.json();
+        this.$emit('balance-event', results.newBalance);
+        this.$emit('new-portfolio', results.newPortfolio);
         this.isEditing = false;
         this.currentSymbol = '';
       },
