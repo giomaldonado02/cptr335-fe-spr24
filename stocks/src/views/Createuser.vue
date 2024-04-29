@@ -1,11 +1,11 @@
-<script setup>
+<!-- <script setup>
 defineProps({
   msg: {
     type: String,
     required: true
   }
 })
-</script>
+</script> -->
 
 <script>
 export default {
